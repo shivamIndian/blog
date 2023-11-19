@@ -8,7 +8,7 @@ const {
 
 const addStory = asyncErrorWrapper(async (req, res, next) => {
   const { title, content } = req.body;
-
+  console.log(req.body);
   var wordCount = content.trim().split(/\s+/).length;
 
   let readtime = Math.floor(wordCount / 200);

@@ -1,56 +1,26 @@
-const express = require("express");
+const express = require("express")
 const imageupload = require("../Helpers/Libraries/imageUpload");
+
 const { getAccessToRoute } = require("../Middlewares/Authorization/auth");
-const {
-  addStory,
-  getAllStories,
-  detailStory,
-  likeStory,
-  editStory,
-  deleteStory,
-  editStoryPage,
-} = require("../Controllers/story");
-const {
-  checkStoryExist,
-  checkUserAndStoryExist,
-} = require("../Middlewares/database/databaseErrorhandler");
+const {addStory,getAllStories,detailStory,likeStory, editStory, deleteStory, editStoryPage } = require("../Controllers/story")
+const { checkStoryExist, checkUserAndStoryExist } = require("../Middlewares/database/databaseErrorhandler");
 
-const router = express.Router();
+const router = express.Router() ;
 
-// AddStory route with image upload handling
-router.post(
-  "/addstory",
-  [getAccessToRoute, imageupload.single("image")],
-  addStory
-);
+router.post("/addstory" ,[getAccessToRoute, imageupload.single("image")],addStory)
 
-router.post("/:slug", checkStoryExist, detailStory);
 
-router.post("/:slug/like", [getAccessToRoute, checkStoryExist], likeStory);
+router.post("/:slug", checkStoryExist, detailStory)
 
-router.get(
-  "/editStory/:slug",
-  [getAccessToRoute, checkStoryExist, checkUserAndStoryExist],
-  editStoryPage
-);
+router.post("/:slug/like",[getAccessToRoute,checkStoryExist] ,likeStory)
 
-router.put(
-  "/:slug/edit",
-  [
-    getAccessToRoute,
-    checkStoryExist,
-    checkUserAndStoryExist,
-    imageupload.single("image"),
-  ],
-  editStory
-);
+router.get("/editStory/:slug",[getAccessToRoute,checkStoryExist,checkUserAndStoryExist] , editStoryPage)
 
-router.delete(
-  "/:slug/delete",
-  [getAccessToRoute, checkStoryExist, checkUserAndStoryExist],
-  deleteStory
-);
+router.put("/:slug/edit",[getAccessToRoute,checkStoryExist,checkUserAndStoryExist, imageupload.single("image")] ,editStory)
 
-router.get("/getAllStories", getAllStories);
+router.delete("/:slug/delete",[getAccessToRoute,checkStoryExist,checkUserAndStoryExist] ,deleteStory)
 
-module.exports = router;
+router.get("/getAllStories",getAllStories)
+
+
+module.exports = router
